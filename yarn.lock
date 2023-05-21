@@ -1204,7 +1204,7 @@ __metadata:
     "@solana/spl-token": ^0.3.7
     "@solana/web3.js": ^1.75.0
     "@tensor-hq/tensor-common": ^0.11.0
-    "@tensor-oss/tensorswap-sdk": 1.9.2
+    "@tensor-oss/tensorswap-sdk": ^1.9.4
     "@types/bn.js": ^5.1.1
     "@types/chai": ^4.3.4
     "@types/chai-as-promised": ^7.1.5
@@ -1224,9 +1224,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tensor-oss/tensorswap-sdk@npm:1.9.2":
-  version: 1.9.2
-  resolution: "@tensor-oss/tensorswap-sdk@npm:1.9.2"
+"@tensor-oss/tensorswap-sdk@npm:^1.9.4":
+  version: 1.9.4
+  resolution: "@tensor-oss/tensorswap-sdk@npm:1.9.4"
   dependencies:
     "@msgpack/msgpack": ^2.8.0
     "@project-serum/anchor": ^0.26.0
@@ -1238,9 +1238,10 @@ __metadata:
     big.js: ^6.2.1
     bn.js: ^5.2.0
     keccak256: ^1.0.6
+    math-expression-evaluator: ^2.0.2
     merkletreejs: ^0.2.32
     uuid: ^8.3.2
-  checksum: 0ee012aac993232592aa48bb9ffff41e3ff2490ce98380f4cb0285e1b1f7ef963996fad1ea3a767f35540a6cc82c875d139edb0d5f22fd8d4222d6ca162b5602
+  checksum: 1853284860000922cea4886dda13ae4c03225a4df56f1338953343011d30fd6ddc7462715004d5bff14918e1c6b5bad03a7973cbaecb81d26fd08473d27b7a5b
   languageName: node
   linkType: hard
 
@@ -3947,6 +3948,13 @@ __metadata:
     socks-proxy-agent: ^7.0.0
     ssri: ^10.0.0
   checksum: 7268bf274a0f6dcf0343829489a4506603ff34bd0649c12058753900b0eb29191dce5dba12680719a5d0a983d3e57810f594a12f3c18494e93a1fbc6348a4540
+  languageName: node
+  linkType: hard
+
+"math-expression-evaluator@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "math-expression-evaluator@npm:2.0.2"
+  checksum: d8a94a49aaf8bf9455f8c86fa6ead47a70032e7667922c282e7d6fbc4f32c835bba126cc38c47b6439323cbece023c9825aba465f59a1d69f62eeec77c424924
   languageName: node
   linkType: hard
 
