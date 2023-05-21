@@ -1,5 +1,5 @@
 {
-  "name": "@tensor-oss/tcomp-ts",
+  "name": "@tensor-oss/tcomp-sdk",
   "version": "0.3.2",
   "description": "Anchor/JS SDK for interacting with TCOMP.",
   "main": "dist/index.js",
