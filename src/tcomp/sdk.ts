@@ -73,9 +73,9 @@ import { IDL as IDL_latest, Tcomp as TComp_latest } from "./idl/tcomp";
 export const TCompIDL_v0_1_0 = IDL_v0_1_0;
 export const TCompIDL_v0_1_0_EffSlot = 0;
 
-//add noop ixs to cancel bid/listing TODO
+//add noop ixs to cancel bid/listing https://solscan.io/tx/5fyrggiyFujwfyB624P9WbjVSRtnwee5wzP6CHNRSvg15xAovNAE1FdgPXVDEaZ9x6BKsVpMnEjmLkoCT8ZhSnRU
 export const TCompIDL_latest = IDL_latest;
-export const TCompIDL_latest_EffSlot = 0; //TODO
+export const TCompIDL_latest_EffSlot = 195759029;
 
 export type TcompIDL = TComp_v0_1_0 | TComp_latest;
 
