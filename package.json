@@ -13,14 +13,8 @@
     "@tensor-hq:registry": "https://registry.npmjs.org"
   },
   "scripts": {
-    "build": "anchor build && bash scripts/cp_idl.sh",
-    "build:test": "bash scripts/test_build.sh",
-    "build:test:ss": "bash scripts/test_build.sh -s",
-    "fast-test": "anchor test --skip-build -- --features testing",
-    "test": "yarn build:test && yarn fast-test",
-    "test:ss": "yarn build:test:ss && yarn fast-test",
-    "push": "git push --atomic",
-    "npmpublish": "rm -rf ./dist && yarn tsc && npm publish --access public"
+    "build": "rm -rf ./dist && yarn tsc",
+    "npmpublish": "yarn build && npm publish --access public  --registry https://registry.npmjs.org"
   },
   "dependencies": {
     "@metaplex-foundation/mpl-bubblegum": "^0.6.2",
