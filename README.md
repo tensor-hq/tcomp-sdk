@@ -28,14 +28,22 @@ yarn tsc
 
 
 ```ts
-const { AnchorProvider, Wallet } = require("@project-serum/anchor");
-const { Connection, Keypair, PublicKey } = require("@solana/web3.js");
-const {
+import { AnchorProvider, Wallet } from "@coral-xyz/anchor";
+import { Connection, Keypair, PublicKey } from "@solana/web3.js";
+import { getLeafAssetId } from "@tensor-hq/tensor-common";
+import {
+  findListStatePda,
+  findTreeAuthorityPda,
   TCompSDK,
-} = require("@tensor-oss/tcomp-sdk");
+} from "@tensor-oss/tcomp-sdk";
+import BN from "bn.js";
 
 const conn = new Connection("https://api.mainnet-beta.solana.com");
-const provider = new AnchorProvider(conn, new Wallet(Keypair.generate()));
+const provider = new AnchorProvider(
+  conn,
+  new Wallet(Keypair.generate()),
+  AnchorProvider.defaultOptions()
+);
 const tcompSdk = new TCompSDK({ provider });
 
 // Listing cNFT
@@ -53,11 +61,30 @@ const {
   delegate: delegatePk,
 
   owner: ownerPk,
-  payer: payerPk,
+  rentPayer: rentPayerPk, // optional: payer and recipient of listing rent
   amount: new BN(priceLamports), // in lamports
+  currency: null, // optional: list for SOL or SPL tokens
   expireInSec: expireIn ? new BN(expireIn) : null, // seconds until listing expires
   privateTaker: takerPk, // optional: only this wallet can buy this listing
 });
+
+
+// Fetching the listing
+const nonce = new BN(index);
+const [treeAuthority] = findTreeAuthorityPda({ merkleTree });
+const assetId = getLeafAssetId(merkleTree, nonce);
+const listState = findListStatePda({ assetId });
+const {
+  assetId: listStateAssetId,
+  owner,
+  amount,
+  currency,
+  expiry,
+  privateTaker,
+  makerBroker,
+  rentPayer,
+} = await tcompSdk.fetchListState(listState);
+
 
 // Buying cNFT
 const {
@@ -76,6 +103,8 @@ const {
   payer: payerPk,
   buyer: buyerPk,
   owner: ownerPk,
+  makerBroker,
+  rentDest,
   maxAmount: new BN(priceLamports),
   optionalRoyaltyPct: 100, // currently required to be 100% (enforced)
 });
@@ -86,6 +115,7 @@ const {
   tx: { ixs },
 } = await tcompSdk.bid({
   owner: ownerPk,
+  rentPayer: rentPayerPK, // optional: payer and recipient of bid rent
   amount: new BN(priceLamports),
   expireInSec: expireIn ? new BN(expireIn) : null, // seconds until listing expires
   privateTaker: takerPk, // optional: only this wallet can sell into this bid
