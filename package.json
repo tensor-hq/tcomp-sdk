@@ -1,11 +1,14 @@
 {
   "name": "@tensor-oss/tcomp-sdk",
-  "version": "0.12.3",
+  "version": "2.0.0",
   "description": "Anchor/JS SDK for interacting with TCOMP.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "module": "./dist/esm/index.js",
+  "main": "./dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "files": [
-    "/dist"
+    "/dist/esm/**/*",
+    "/dist/cjs/**/*"
   ],
   "repository": "https://github.com/tensor-hq/tcomp-sdk.git",
   "license": "MIT",
@@ -15,11 +18,13 @@
   "scripts": {
     "build": "anchor build && bash scripts/cp_idl.sh",
     "build:test": "bash scripts/test_build.sh",
-    "build:ts": "rm -rf ./dist && yarn tsc",
+    "build:ts": "rm -rf ./dist && yarn tsc && yarn tsc --p tsconfig.cjs.json",
     "fast-test": "anchor test --skip-build -- --features testing",
     "test": "yarn build:test && yarn fast-test",
     "push": "git push --atomic",
-    "publish:public": "yarn build:ts && npm publish --access public --registry https://registry.npmjs.org"
+    "publish:private": "yarn build:ts && yarn npm publish",
+    "publish:public": "yarn build:ts && npm publish --access public --registry https://registry.npmjs.org",
+    "upgrade": "yarn add @tensor-hq/tensor-common @tensor-oss/tensorswap-sdk"
   },
   "dependencies": {
     "@coral-xyz/anchor": "0.26.0",
@@ -29,15 +34,15 @@
     "@solana/spl-account-compression": "^0.1.7",
     "@solana/spl-token": "^0.3.7",
     "@solana/web3.js": "^1.75.0",
-    "@tensor-hq/tensor-common": "^0.19.3",
-    "@tensor-oss/tensorswap-sdk": "^1.14.0",
+    "@tensor-hq/tensor-common": "^1.0.3",
+    "@tensor-oss/tensorswap-sdk": "^2.0.3",
     "bn.js": "^5.2.1",
     "borsh": "^0.7.0",
-    "js-sha3": "^0.8.0"
+    "js-sha256": "^0.9.0",
+    "js-sha3": "^0.8.0",
+    "math-expression-evaluator": "^2.0.4"
   },
   "devDependencies": {
-    "@metaplex-foundation/js": "^0.18.3",
-    "@metaplex-foundation/mpl-token-auth-rules": "^1.2.0",
     "@saberhq/solana-contrib": "^1.14.11",
     "@types/bn.js": "^5.1.1",
     "@types/chai": "^4.3.4",
