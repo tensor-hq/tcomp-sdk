@@ -389,9 +389,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tensor-hq/tensor-common@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@tensor-hq/tensor-common@npm:1.0.3::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40tensor-hq%2Ftensor-common%2F1.0.3%2Ff20c6d7696d9a78b961951b7dd284183d97dc554"
+"@tensor-hq/tensor-common@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "@tensor-hq/tensor-common@npm:1.2.2::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40tensor-hq%2Ftensor-common%2F1.2.2%2F94a32a6e2f0e615f809c2fd09025967f7aa99115"
   dependencies:
     "@coral-xyz/anchor": ^0.26.0
     "@metaplex-foundation/mpl-auction-house": ^2.1.1
@@ -406,7 +406,7 @@ __metadata:
     exponential-backoff: ^3.1.1
     js-sha3: ^0.8.0
     semaphore: ^1.1.0
-  checksum: 13896470193b9f1d91086ba71571d56126007c8beab809b052c10c94cd3ecd3250206a926769c200a6c864efb4a94386f81d0b0379ebe579a3f95cc79ea73f1f
+  checksum: 55b3678a837717bd4bfe794039409528cf98e42f977dcc1f6f6de0ed2c01a352e522ef1758aa855814fce9dbeeaa7498de817529e949cc0c0fbd8f69c0d038ae
   languageName: node
   linkType: hard
 
@@ -422,8 +422,8 @@ __metadata:
     "@solana/spl-account-compression": ^0.1.7
     "@solana/spl-token": ^0.3.7
     "@solana/web3.js": ^1.75.0
-    "@tensor-hq/tensor-common": ^1.0.3
-    "@tensor-oss/tensorswap-sdk": ^2.0.3
+    "@tensor-hq/tensor-common": ^1.2.2
+    "@tensor-oss/tensorswap-sdk": ^2.0.4
     "@types/bn.js": ^5.1.1
     "@types/chai": ^4.3.4
     "@types/chai-as-promised": ^7.1.5
@@ -447,16 +447,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tensor-oss/tensorswap-sdk@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@tensor-oss/tensorswap-sdk@npm:2.0.3"
+"@tensor-oss/tensorswap-sdk@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@tensor-oss/tensorswap-sdk@npm:2.0.4"
   dependencies:
     "@coral-xyz/anchor": ^0.26.0
     "@msgpack/msgpack": ^2.8.0
     "@saberhq/solana-contrib": ^1.14.11
     "@solana/spl-token": ^0.3.7
     "@solana/web3.js": ^1.73.0
-    "@tensor-hq/tensor-common": ^1.0.3
+    "@tensor-hq/tensor-common": ^1.2.2
     "@types/bn.js": ^5.1.0
     big.js: ^6.2.1
     bn.js: ^5.2.0
@@ -465,7 +465,7 @@ __metadata:
     math-expression-evaluator: ^2.0.4
     merkletreejs: ^0.2.32
     uuid: ^8.3.2
-  checksum: 0b3e3cf4ea0ad4a748aee72a1b1f8ef345a2cabe0cd304ba71f0dd7d5415095501994a8bef4ce5797519a568deb926b867da41ca2df5e625f3d2e3b50eb19b59
+  checksum: aa62f60448586c6beafa296d2228d45baf3a6a57f90302e77b00148d51c8712fa0388b52a221d10f8aa7e4af9aac75f9f88243e2f386b6e47813a882e6275d45
   languageName: node
   linkType: hard
 
