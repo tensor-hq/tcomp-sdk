@@ -1161,7 +1161,7 @@ export class TCompSDK {
     takerBroker = null,
     optionalRoyaltyPct = 100,
     owner,
-    rentPayer = owner,
+    rentDest = owner,
     seller,
     delegate = seller,
     margin = null,
@@ -1195,7 +1195,7 @@ export class TCompSDK {
     takerBroker?: PublicKey | null;
     optionalRoyaltyPct?: number | null;
     owner: PublicKey;
-    rentPayer?: PublicKey;
+    rentDest?: PublicKey;
     seller: PublicKey;
     delegate?: PublicKey;
     margin?: PublicKey | null;
@@ -1238,7 +1238,7 @@ export class TCompSDK {
       treeAuthority,
       seller,
       owner,
-      rentPayer: getTcompRentPayer({ rentPayer, owner }),
+      rentDest: getTcompRentPayer({ rentPayer: rentDest, owner }),
       bidState,
       tcomp,
       takerBroker,
@@ -1397,7 +1397,7 @@ export class TCompSDK {
         seller,
         bidState,
         owner,
-        rentPayer: getTcompRentPayer({ rentPayer, owner }),
+        rentDest: getTcompRentPayer({ rentPayer, owner }),
         takerBroker,
         makerBroker,
         marginAccount: margin ?? seller,
