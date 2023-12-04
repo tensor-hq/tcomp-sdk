@@ -389,9 +389,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tensor-hq/tcomp-sdk@workspace:.":
+"@tensor-hq/tensor-common@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "@tensor-hq/tensor-common@npm:1.2.2::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40tensor-hq%2Ftensor-common%2F1.2.2%2F94a32a6e2f0e615f809c2fd09025967f7aa99115"
+  dependencies:
+    "@coral-xyz/anchor": ^0.26.0
+    "@metaplex-foundation/mpl-auction-house": ^2.1.1
+    "@metaplex-foundation/mpl-bubblegum": ^0.7.0
+    "@solana/spl-token": ^0.3.7
+    "@solana/web3.js": ^1.73.0
+    axios: ^0.27.2
+    big.js: ^6.2.1
+    bn.js: ^5.2.1
+    borsh: ^0.7.0
+    bs58: ^5.0.0
+    exponential-backoff: ^3.1.1
+    js-sha3: ^0.8.0
+    semaphore: ^1.1.0
+  checksum: 55b3678a837717bd4bfe794039409528cf98e42f977dcc1f6f6de0ed2c01a352e522ef1758aa855814fce9dbeeaa7498de817529e949cc0c0fbd8f69c0d038ae
+  languageName: node
+  linkType: hard
+
+"@tensor-oss/tcomp-sdk@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@tensor-hq/tcomp-sdk@workspace:."
+  resolution: "@tensor-oss/tcomp-sdk@workspace:."
   dependencies:
     "@coral-xyz/anchor": 0.26.0
     "@metaplex-foundation/mpl-bubblegum": ~0.8.0
@@ -402,7 +423,7 @@ __metadata:
     "@solana/spl-token": ^0.3.7
     "@solana/web3.js": ^1.75.0
     "@tensor-hq/tensor-common": ^1.2.2
-    "@tensor-hq/tensorswap-sdk": ^2.0.4
+    "@tensor-oss/tensorswap-sdk": ^2.0.4
     "@types/bn.js": ^5.1.1
     "@types/chai": ^4.3.4
     "@types/chai-as-promised": ^7.1.5
@@ -426,30 +447,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tensor-hq/tensor-common@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "@tensor-hq/tensor-common@npm:1.2.2::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40tensor-hq%2Ftensor-common%2F1.2.2%2F94a32a6e2f0e615f809c2fd09025967f7aa99115"
-  dependencies:
-    "@coral-xyz/anchor": ^0.26.0
-    "@metaplex-foundation/mpl-auction-house": ^2.1.1
-    "@metaplex-foundation/mpl-bubblegum": ^0.7.0
-    "@solana/spl-token": ^0.3.7
-    "@solana/web3.js": ^1.73.0
-    axios: ^0.27.2
-    big.js: ^6.2.1
-    bn.js: ^5.2.1
-    borsh: ^0.7.0
-    bs58: ^5.0.0
-    exponential-backoff: ^3.1.1
-    js-sha3: ^0.8.0
-    semaphore: ^1.1.0
-  checksum: 55b3678a837717bd4bfe794039409528cf98e42f977dcc1f6f6de0ed2c01a352e522ef1758aa855814fce9dbeeaa7498de817529e949cc0c0fbd8f69c0d038ae
-  languageName: node
-  linkType: hard
-
-"@tensor-hq/tensorswap-sdk@npm:^2.0.4":
+"@tensor-oss/tensorswap-sdk@npm:^2.0.4":
   version: 2.0.4
-  resolution: "@tensor-hq/tensorswap-sdk@npm:2.0.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40tensor-hq%2Ftensorswap-sdk%2F2.0.4%2Fb43539a63cd3f04791e57a8a61406544259322eb"
+  resolution: "@tensor-oss/tensorswap-sdk@npm:2.0.4"
   dependencies:
     "@coral-xyz/anchor": ^0.26.0
     "@msgpack/msgpack": ^2.8.0
@@ -465,7 +465,7 @@ __metadata:
     math-expression-evaluator: ^2.0.4
     merkletreejs: ^0.2.32
     uuid: ^8.3.2
-  checksum: 0ebecc761ec6d1b6fbfde2b36fdbd1c22dab0e61c482b6d1d6b1e3c4723e5bb393a593dd6b237cd87cd43a4f1b9c41366188a62a1c8019cb8d0ac5e23707eb2d
+  checksum: aa62f60448586c6beafa296d2228d45baf3a6a57f90302e77b00148d51c8712fa0388b52a221d10f8aa7e4af9aac75f9f88243e2f386b6e47813a882e6275d45
   languageName: node
   linkType: hard
 
