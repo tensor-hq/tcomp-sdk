@@ -13,11 +13,7 @@ import {
   TokenStandard,
   UseMethod,
 } from "@metaplex-foundation/mpl-bubblegum";
-import {
-  AuthorizationData,
-  Creator,
-  Uses,
-} from "@metaplex-foundation/mpl-token-metadata";
+import { Creator, Uses } from "@metaplex-foundation/mpl-token-metadata";
 import {
   SPL_ACCOUNT_COMPRESSION_PROGRAM_ID,
   SPL_NOOP_PROGRAM_ID,
@@ -36,10 +32,12 @@ import {
 } from "@solana/web3.js";
 import {
   AcctDiscHexMap,
-  AUTH_PROG_ID,
+  AUTH_PROGRAM_ID,
   BUBBLEGUM_PROGRAM_ID,
+  Cluster,
   decodeAnchorAcct,
   findMetadataPda,
+  findTokenRecordPda,
   genAcctDiscHexMap,
   genIxDiscHexMap,
   getLeafAssetId,
@@ -49,12 +47,13 @@ import {
   isNullLike,
   parseAnchorIxs,
   ParsedAnchorIx,
+  PnftArgs,
   prependComputeIxs,
   prepPnftAccounts,
-  TENSORSWAP_ADDR,
-  TMETA_PROG_ID,
+  TMETA_PROGRAM_ID,
   TSWAP_COSIGNER,
   TSWAP_OWNER,
+  TSWAP_PROGRAM_ID,
 } from "@tensor-hq/tensor-common";
 import { findMintProofPDA, findTSwapPDA } from "@tensor-oss/tensorswap-sdk";
 import * as borsh from "borsh";
@@ -71,9 +70,6 @@ import {
 import { ParsedAccount } from "../types";
 import { TCOMP_ADDR } from "./constants";
 import { IDL as IDL_latest, Tcomp as TComp_latest } from "./idl/tcomp";
-import { IDL as IDL_v0_1_0, Tcomp as TComp_v0_1_0 } from "./idl/tcomp_v0_1_0";
-import { IDL as IDL_v0_4_0, Tcomp as TComp_v0_4_0 } from "./idl/tcomp_v0_4_0";
-import { IDL as IDL_v0_6_0, Tcomp as TComp_v0_6_0 } from "./idl/tcomp_v0_6_0";
 import {
   IDL as IDL_v0_11_0,
   Tcomp as TComp_v0_11_0,
@@ -82,6 +78,9 @@ import {
   IDL as IDL_v0_13_4,
   Tcomp as Tcomp_v0_13_4,
 } from "./idl/tcomp_v0_13_4";
+import { IDL as IDL_v0_1_0, Tcomp as TComp_v0_1_0 } from "./idl/tcomp_v0_1_0";
+import { IDL as IDL_v0_4_0, Tcomp as TComp_v0_4_0 } from "./idl/tcomp_v0_4_0";
+import { IDL as IDL_v0_6_0, Tcomp as TComp_v0_6_0 } from "./idl/tcomp_v0_6_0";
 import {
   findBidStatePda,
   findListStatePda,
@@ -94,27 +93,29 @@ import {
 
 //original deployment
 export const TCompIDL_v0_1_0 = IDL_v0_1_0;
-export const TCompIDL_v0_1_0_EffSlot = 0;
+export const TCompIDL_v0_1_0_EffSlot_Mainnet = 0;
 
 //add noop ixs to cancel bid/listing https://solscan.io/tx/5fyrggiyFujwfyB624P9WbjVSRtnwee5wzP6CHNRSvg15xAovNAE1FdgPXVDEaZ9x6BKsVpMnEjmLkoCT8ZhSnRU
 export const TCompIDL_v0_4_0 = IDL_v0_4_0;
-export const TCompIDL_v0_4_0_EffSlot = 195759029;
+export const TCompIDL_v0_4_0_EffSlot_Mainnet = 195759029;
 
-//add asset id to events https://solscan.io/tx/4ZrW4gn3wrjvytaycVRWf2gU2UZJVeHpDKDVbE8KVfXWpugTiKZtPsAkuxjwdvCKEnnV8Y8U5MwCCVguRszR6wcV
+//add asset id to events
 export const TCompIDL_v0_6_0 = IDL_v0_6_0;
-export const TCompIDL_v0_6_0_EffSlot = 195759029;
+export const TCompIDL_v0_6_0_EffSlot_Mainnet = 195759029; // https://solscan.io/tx/4ZrW4gn3wrjvytaycVRWf2gU2UZJVeHpDKDVbE8KVfXWpugTiKZtPsAkuxjwdvCKEnnV8Y8U5MwCCVguRszR6wcV
+export const TCompIDL_v0_6_0_EffSlot_Devnet = 218778608; // https://solscan.io/tx/2JNJPCx6EE8wsh4KZ3y4dyAtM1Q1a94c5iXYLtTpKFvjJFzW7Ct8UmfRu1EAqz3PAWfTCT6HHXRtpP7TwkmXKDG6?cluster=devnet
 
 //add optional cosigner https://solscan.io/tx/2zEnwiJKJq4ckfLGdKD4p8hiMWEFY6qvd5yiW7QpZxAdcBMbCDK8cnxpnNfpU1x8HC7csEurSC4mbHzAKdfr45Yc
 export const TCompIDL_v0_11_0 = IDL_v0_11_0;
-export const TCompIDL_v0_11_0_EffSlot = 225359236;
+export const TCompIDL_v0_11_0_EffSlot_Mainnet = 225359236;
 
 //add proof account for legacy take bid https://solscan.io/tx/2MELxB2wAWp3UVaEmktNJeA85vhVhuerfaw7M4hgCx4wjqLrsJ3xQNMgKyypy17MyV8Meem9G5WX1pmoci5XSrK
 export const TCompIDL_v0_13_4 = IDL_v0_13_4;
-export const TCompIDL_v0_13_4_EffSlot = 225783471;
+export const TCompIDL_v0_13_4_EffSlot_Mainnet = 225783471;
 
-//add rent payer, gameshift broker, USDC buy https://solscan.io/tx/3t9g4DgnAoF1n2wCNfRBNzo4DSUGoNVmqthNrZw2RR9JqBeaEkondVy8ozqR98Nd6zmXE3TKUK18gF1rkDd5NQUk
+//add rent payer, gameshift broker, USDC buy
 export const TCompIDL_latest = IDL_latest;
-export const TCompIDL_latest_EffSlot = 233959124;
+export const TCompIDL_latest_EffSlot_Mainnet = 233959124; // https://solscan.io/tx/3t9g4DgnAoF1n2wCNfRBNzo4DSUGoNVmqthNrZw2RR9JqBeaEkondVy8ozqR98Nd6zmXE3TKUK18gF1rkDd5NQUk
+export const TCompIDL_latest_EffSlot_Devnet = 265159305; // https://solscan.io/tx/2V665dcPTaFc4gf18c4wtVb6iXSVP9uGJgpaGc1qyrqziBcHCJSy1pR5zmeb32XkKEXWWjQX8A9WG2ecii6JWGw?cluster=devnet
 
 export type TcompIDL =
   | TComp_v0_1_0
@@ -125,14 +126,25 @@ export type TcompIDL =
   | TComp_latest;
 
 // Use this function to figure out which IDL to use based on the slot # of historical txs.
-export const triageTCompIDL = (slot: number | bigint): TcompIDL | null => {
-  if (slot < TCompIDL_v0_1_0_EffSlot) return null;
-  if (slot < TCompIDL_v0_4_0_EffSlot) return TCompIDL_v0_1_0;
-  if (slot < TCompIDL_v0_6_0_EffSlot) return TCompIDL_v0_4_0;
-  if (slot < TCompIDL_v0_11_0_EffSlot) return TCompIDL_v0_6_0;
-  if (slot < TCompIDL_v0_13_4_EffSlot) return TCompIDL_v0_11_0;
-  if (slot < TCompIDL_latest_EffSlot) return TCompIDL_v0_13_4;
-  return TCompIDL_latest;
+export const triageTCompIDL = (
+  slot: number | bigint,
+  cluster: Cluster
+): TcompIDL | null => {
+  switch (cluster) {
+    case Cluster.Mainnet:
+      if (slot < TCompIDL_v0_1_0_EffSlot_Mainnet) return null;
+      if (slot < TCompIDL_v0_4_0_EffSlot_Mainnet) return TCompIDL_v0_1_0;
+      if (slot < TCompIDL_v0_6_0_EffSlot_Mainnet) return TCompIDL_v0_4_0;
+      if (slot < TCompIDL_v0_11_0_EffSlot_Mainnet) return TCompIDL_v0_6_0;
+      if (slot < TCompIDL_v0_13_4_EffSlot_Mainnet) return TCompIDL_v0_11_0;
+      if (slot < TCompIDL_latest_EffSlot_Mainnet) return TCompIDL_v0_13_4;
+      return TCompIDL_latest;
+    case Cluster.Devnet:
+      if (slot < TCompIDL_v0_6_0_EffSlot_Devnet) return null;
+      // v0_11_0 and v0_13_4 were skipped
+      if (slot < TCompIDL_latest_EffSlot_Devnet) return TCompIDL_v0_6_0;
+      return TCompIDL_latest;
+  }
 };
 
 export type ParsedTCompIx = ParsedAnchorIx<TcompIDL>;
@@ -382,20 +394,6 @@ export type TaggedTCompPdaAnchor =
     };
 
 // --------------------------------------- sdk
-
-type PnftArgs = {
-  /** If provided, skips RPC call to fetch on-chain metadata + creators. */
-  metaCreators?: {
-    metadata: PublicKey;
-    creators: PublicKey[];
-  };
-  authData?: AuthorizationData | null;
-  /** passing in null or undefined means these ixs are NOT included */
-  compute?: number | null;
-  /** If a ruleSet is present, we add this many additional */
-  ruleSetAddnCompute?: number | null;
-  priorityMicroLamports?: number | null;
-};
 
 export class TCompSDK {
   program: Program<TcompIDL>;
@@ -724,7 +722,7 @@ export class TCompSDK {
     let creatorsPath = creators.map((c) => ({
       pubkey: c.address,
       isSigner: false,
-      isWritable: true,
+      isWritable: c.share > 0, // reduces congestion + program creators
     }));
     let proofPath = proof.slice(0, proof.length - canopyDepth).map((b) => ({
       pubkey: new PublicKey(b),
@@ -844,7 +842,7 @@ export class TCompSDK {
     let creatorsPath = creators.map((c) => ({
       pubkey: c.address,
       isSigner: false,
-      isWritable: true,
+      isWritable: c.share > 0, // reduces congestion + program creators
     }));
     let creatorAtasPath = creators.map((c) => ({
       pubkey: findAta(currency, c.address),
@@ -1220,7 +1218,7 @@ export class TCompSDK {
     let creatorsPath = creators.map((c) => ({
       pubkey: c.address,
       isSigner: false,
-      isWritable: true,
+      isWritable: c.share > 0, // reduces congestion + program creators
     }));
     let proofPath = proof.slice(0, proof.length - canopyDepth).map((b) => ({
       pubkey: new PublicKey(b),
@@ -1245,8 +1243,8 @@ export class TCompSDK {
       makerBroker,
       delegate: delegate,
       marginAccount: margin ?? seller,
-      tensorswapProgram: TENSORSWAP_ADDR,
-      whitelist: whitelist ?? TENSORSWAP_ADDR,
+      tensorswapProgram: TSWAP_PROGRAM_ID,
+      whitelist: whitelist ?? TSWAP_PROGRAM_ID,
       cosigner: cosigner ?? delegate ?? seller,
     };
     const remAccounts = [...creatorsPath, ...proofPath];
@@ -1324,7 +1322,7 @@ export class TCompSDK {
     margin = null,
     whitelist = null,
     /** pnft args */
-    metaCreators,
+    meta,
     authData = null,
     compute = 800_000, // pnfts are expensive
     ruleSetAddnCompute = DEFAULT_RULESET_ADDN_COMPUTE_UNITS,
@@ -1356,34 +1354,24 @@ export class TCompSDK {
       : SystemProgram.programId;
 
     //prepare 2 pnft account sets
-    const [
-      {
-        creators,
-        ownerTokenRecordPda,
-        destTokenRecordPda: escrowDestTokenRecordPda,
-        ruleSet,
-        nftEditionPda,
-        authDataSerialized,
-      },
-      { destTokenRecordPda: tokenDestTokenRecordPda },
-    ] = await Promise.all([
-      prepPnftAccounts({
-        connection: this.program.provider.connection,
-        metaCreators,
-        nftMint,
-        destAta: escrowPda,
-        authData,
-        sourceAta: nftSellerAcc,
-      }),
-      prepPnftAccounts({
-        connection: this.program.provider.connection,
-        metaCreators,
-        nftMint,
-        destAta: ownerAtaAcc,
-        authData,
-        sourceAta: nftSellerAcc,
-      }),
-    ]);
+    const {
+      meta: newMeta,
+      creators,
+      ownerTokenRecordPda,
+      destTokenRecordPda: escrowDestTokenRecordPda,
+      ruleSet,
+      nftEditionPda,
+      authDataSerialized,
+    } = await prepPnftAccounts({
+      connection: this.program.provider.connection,
+      meta,
+      nftMint,
+      destAta: escrowPda,
+      authData,
+      sourceAta: nftSellerAcc,
+    });
+    meta = newMeta;
+    const [destTokenRecord] = findTokenRecordPda(nftMint, ownerAtaAcc);
 
     const builder = this.program.methods
       .takeBidLegacy(
@@ -1401,17 +1389,17 @@ export class TCompSDK {
         takerBroker,
         makerBroker,
         marginAccount: margin ?? seller,
-        whitelist: whitelist ?? TENSORSWAP_ADDR,
+        whitelist: whitelist ?? TSWAP_PROGRAM_ID,
         nftSellerAcc,
         nftMint,
         nftMetadata,
         ownerAtaAcc,
         nftEdition: nftEditionPda,
         ownerTokenRecord: ownerTokenRecordPda,
-        destTokenRecord: tokenDestTokenRecordPda,
+        destTokenRecord: destTokenRecord,
         pnftShared: {
-          authorizationRulesProgram: AUTH_PROG_ID,
-          tokenMetadataProgram: TMETA_PROG_ID,
+          authorizationRulesProgram: AUTH_PROGRAM_ID,
+          tokenMetadataProgram: TMETA_PROGRAM_ID,
           instructions: SYSVAR_INSTRUCTIONS_PUBKEY,
         },
         nftEscrow: escrowPda,
@@ -1422,15 +1410,15 @@ export class TCompSDK {
         associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
         systemProgram: SystemProgram.programId,
         tcompProgram: TCOMP_ADDR,
-        tensorswapProgram: TENSORSWAP_ADDR,
+        tensorswapProgram: TSWAP_PROGRAM_ID,
         cosigner: cosigner ?? seller,
         mintProof: mintProofPda,
       })
       .remainingAccounts(
         creators.map((c) => ({
-          pubkey: c,
+          pubkey: c.address,
           isSigner: false,
-          isWritable: true,
+          isWritable: c.share > 0, // reduces congestion + program creators
         }))
       );
     const ix = await builder.instruction();

@@ -1,5 +1,5 @@
 export type Tcomp = {
-  "version": "0.14.0",
+  "version": "2.0.1",
   "name": "tcomp",
   "constants": [
     {
@@ -10,7 +10,7 @@ export type Tcomp = {
     {
       "name": "TCOMP_FEE_BPS",
       "type": "u16",
-      "value": "140"
+      "value": "150"
     },
     {
       "name": "MAX_EXPIRY_SEC",
@@ -2333,12 +2333,17 @@ export type Tcomp = {
       "code": 6138,
       "name": "MakerBrokerNotYetWhitelisted",
       "msg": "maker broker not yet whitelisted"
+    },
+    {
+      "code": 6139,
+      "name": "WrongTokenRecordDerivation",
+      "msg": "token record derivation is wrong"
     }
   ]
 };
 
 export const IDL: Tcomp = {
-  "version": "0.14.0",
+  "version": "2.0.1",
   "name": "tcomp",
   "constants": [
     {
@@ -2349,7 +2354,7 @@ export const IDL: Tcomp = {
     {
       "name": "TCOMP_FEE_BPS",
       "type": "u16",
-      "value": "140"
+      "value": "150"
     },
     {
       "name": "MAX_EXPIRY_SEC",
@@ -4672,6 +4677,11 @@ export const IDL: Tcomp = {
       "code": 6138,
       "name": "MakerBrokerNotYetWhitelisted",
       "msg": "maker broker not yet whitelisted"
+    },
+    {
+      "code": 6139,
+      "name": "WrongTokenRecordDerivation",
+      "msg": "token record derivation is wrong"
     }
   ]
 };
