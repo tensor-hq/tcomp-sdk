@@ -19,7 +19,7 @@ The `helpers` file contains helper functions that are also needed across multipl
 #### others
 All other files contain working examples to generate the corresponding Transaction objects via SDK. 
 
-On default they only simulate the Transaction - if you remove the comment signs around the last few lines of each example, the Transaction will actually get executed on Mainnet. 
+On default they only construct the Transaction and log it - if you remove the comment signs around the last few lines of each example, the Transaction will actually get executed on Mainnet. 
 Only make use of that if you know what you are doing!
 
 The examples are designed as scripts and are executable via:
