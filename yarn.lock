@@ -473,7 +473,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:1.3.3, @noble/hashes@npm:^1.3.1":
+"@noble/hashes@npm:1.3.3":
   version: 1.3.3
   resolution: "@noble/hashes@npm:1.3.3"
   checksum: 8a6496d1c0c64797339bc694ad06cdfaa0f9e56cd0c3f68ae3666cfb153a791a55deb0af9c653c7ed2db64d537aa3e3054629740d2f2338bb1dcb7ab60cd205b
@@ -484,6 +484,13 @@ __metadata:
   version: 1.3.0
   resolution: "@noble/hashes@npm:1.3.0"
   checksum: d7ddb6d7c60f1ce1f87facbbef5b724cdea536fc9e7f59ae96e0fc9de96c8f1a2ae2bdedbce10f7dcc621338dfef8533daa73c873f2b5c87fa1a4e05a95c2e2e
+  languageName: node
+  linkType: hard
+
+"@noble/hashes@npm:^1.3.1":
+  version: 1.4.0
+  resolution: "@noble/hashes@npm:1.4.0"
+  checksum: 8ba816ae26c90764b8c42493eea383716396096c5f7ba6bea559993194f49d80a73c081f315f4c367e51bd2d5891700bcdfa816b421d24ab45b41cb03e4f3342
   languageName: node
   linkType: hard
 
@@ -687,15 +694,16 @@ __metadata:
   linkType: hard
 
 "@solana/spl-token@npm:^0.3.9":
-  version: 0.3.9
-  resolution: "@solana/spl-token@npm:0.3.9"
+  version: 0.3.11
+  resolution: "@solana/spl-token@npm:0.3.11"
   dependencies:
     "@solana/buffer-layout": ^4.0.0
     "@solana/buffer-layout-utils": ^0.2.0
+    "@solana/spl-token-metadata": ^0.1.2
     buffer: ^6.0.3
   peerDependencies:
-    "@solana/web3.js": ^1.47.4
-  checksum: 9313f92806284151ea099efe9cf766ea4dc7842041976597562193980ccd9eae18f3fedd3ee975ebb43a74ea3866769a90742c17e87564de05e4fd2dcd7d485c
+    "@solana/web3.js": ^1.88.0
+  checksum: 84faef5e8ed798e21870728817f650d572a0d0b8c8ac6591f75325d7e89831df396f48384083a65f8b79c30ea4cbfabd0ccb4fbc7a4f20953d133b746ed8b99d
   languageName: node
   linkType: hard
 
@@ -748,7 +756,7 @@ __metadata:
 
 "@tensor-hq/tensor-common@npm:^1.0.3":
   version: 1.2.4
-  resolution: "@tensor-hq/tensor-common@npm:1.2.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40tensor-hq%2Ftensor-common%2F1.2.4%2Fbbfea86af91b1d9227b54adb0cf01dd8d90577dc"
+  resolution: "@tensor-hq/tensor-common@npm:1.2.4"
   dependencies:
     "@coral-xyz/anchor": ^0.26.0
     "@metaplex-foundation/mpl-auction-house": ^2.1.1
@@ -763,35 +771,13 @@ __metadata:
     exponential-backoff: ^3.1.1
     js-sha3: ^0.8.0
     semaphore: ^1.1.0
-  checksum: 3d659d4206b3e013265a9b2134768e12f2b7cf71d3f4ed6e025a2edb56c48908c9d04b6aa2a06a83654c8fa294d9e970dd3651449acd91036c05393491306648
+  checksum: 82b67ab89d07ef9b402ff8f113a5f4bd4c7d6f5c99e3c935c6acae0d54819f2aacd7af08357f4493e1d10844bae57f855f22f11b3c22e287fd5c8d1056237e39
   languageName: node
   linkType: hard
 
-"@tensor-hq/tensor-common@npm:^2.3.2":
-  version: 2.3.2
-  resolution: "@tensor-hq/tensor-common@npm:2.3.2::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40tensor-hq%2Ftensor-common%2F2.3.2%2F75e1f063ba188ff9fe8b18a09e8244ea2bce8d01"
-  dependencies:
-    "@coral-xyz/anchor": ^0.26.0
-    "@metaplex-foundation/mpl-auction-house": ^2.1.1
-    "@metaplex-foundation/mpl-bubblegum": ^0.7.0
-    "@solana/spl-account-compression": ^0.1.4
-    "@solana/spl-token": ^0.3.7
-    "@solana/web3.js": ^1.73.0
-    axios: ^0.27.2
-    big.js: ^6.2.1
-    bn.js: ^5.2.1
-    borsh: ^0.7.0
-    bs58: ^5.0.0
-    exponential-backoff: ^3.1.1
-    js-sha3: ^0.8.0
-    semaphore: ^1.1.0
-  checksum: 264da54e5fd6b4714337dc83673e5c3e7d43d54211cdcf6e8a417d7cde03a255d3a6a01dc2618da33e433490f8f3d1e711262c9944b08e1b50201b40370c5ddf
-  languageName: node
-  linkType: hard
-
-"@tensor-hq/tensor-common@npm:^2.3.3":
-  version: 2.8.0
-  resolution: "@tensor-hq/tensor-common@npm:2.8.0"
+"@tensor-hq/tensor-common@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "@tensor-hq/tensor-common@npm:5.3.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40tensor-hq%2Ftensor-common%2F5.3.0%2Fe7648191009f688459dd8b8245f3d3529c0b3788"
   dependencies:
     "@coral-xyz/anchor": ^0.26.0
     "@metaplex-foundation/mpl-auction-house": ^2.1.1
@@ -807,35 +793,13 @@ __metadata:
     exponential-backoff: ^3.1.1
     js-sha3: ^0.8.0
     semaphore: ^1.1.0
-  checksum: f8c63cfe4a745247d0de74867c80b380c52d6d75a35d4ed6c5377a907207f6eb7aa19175071802cc8688d2fae42f212e5d638bce222b2cf3182a5fe816096a89
+  checksum: c8b98ec20ec63ed4d8b08e8947ccc37a31d713a8659f9bf00f7c328e4f4695a5e56f2b05881763c340f7c6e5227a102d8fb2c7bac51e2c7de0816de59d736ac9
   languageName: node
   linkType: hard
 
-"@tensor-hq/tensor-common@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "@tensor-hq/tensor-common@npm:4.1.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40tensor-hq%2Ftensor-common%2F4.1.0%2Fae49661c2b5309c328b8285257d440af0e3a0524"
-  dependencies:
-    "@coral-xyz/anchor": ^0.26.0
-    "@metaplex-foundation/mpl-auction-house": ^2.1.1
-    "@metaplex-foundation/mpl-bubblegum": ^0.7.0
-    "@solana/spl-account-compression": ^0.1.4
-    "@solana/spl-token": ^0.3.7
-    "@solana/web3.js": ^1.73.0
-    axios: ^0.27.2
-    big.js: ^6.2.1
-    bn.js: ^5.2.1
-    borsh: ^0.7.0
-    bs58: ^5.0.0
-    exponential-backoff: ^3.1.1
-    js-sha3: ^0.8.0
-    semaphore: ^1.1.0
-  checksum: 4ee50201c0b9e331d9871386e48b271c4074f1d62a6698fdc6c8e609f81ef2d16fadf20690a083ea80ff352ea5358439f9876f1dfccdf477ee18504375dcf922
-  languageName: node
-  linkType: hard
-
-"@tensor-hq/tensor-tests-common@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@tensor-hq/tensor-tests-common@npm:0.3.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40tensor-hq%2Ftensor-tests-common%2F0.3.0%2Fff5da044dd9afe67c1afb254bcc37c85c6166985"
+"@tensor-hq/tensor-tests-common@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@tensor-hq/tensor-tests-common@npm:0.4.0"
   dependencies:
     "@coral-xyz/anchor": ^0.29.0
     "@metaplex-foundation/mpl-bubblegum": ^0.8.0
@@ -847,13 +811,13 @@ __metadata:
     "@solana/spl-account-compression": ^0.2.0
     "@solana/spl-token": ^0.3.9
     "@tensor-hq/tensor-common": ^1.0.3
-    "@tensor-oss/tensorswap-sdk": ^2.0.6
+    "@tensor-oss/tensorswap-sdk": ^4.2.0
     bs58: ^5.0.0
     chai-as-promised: ^7.1.1
     exponential-backoff: ^3.1.1
     js-sha3: ^0.9.2
     merkletreejs: ^0.3.11
-  checksum: 6d08781e67cedc97db497ccaaacfcaba881f54663483489075a56649703b1041cb9baeff7ad1dab2a7edd216dc86a6fd48dc5f0cf0ce82388507f30b0d0cee7c
+  checksum: 3b211f0e818bdfb7580760390c7d9b1ae21e18b43e9286afe8f1f1328b18e3dac6d55825c9442d6425bc49fc087075299fbd5eef75ceb711165c028493dc80b5
   languageName: node
   linkType: hard
 
@@ -873,9 +837,9 @@ __metadata:
     "@solana/spl-account-compression": ^0.1.7
     "@solana/spl-token": ^0.4.0
     "@solana/web3.js": ^1.75.0
-    "@tensor-hq/tensor-common": ^4.1.0
-    "@tensor-hq/tensor-tests-common": ^0.3.0
-    "@tensor-oss/tensorswap-sdk": ^2.0.4
+    "@tensor-hq/tensor-common": ^5.3.0
+    "@tensor-hq/tensor-tests-common": ^0.4.0
+    "@tensor-oss/tensorswap-sdk": ^4.3.0
     "@types/bn.js": ^5.1.1
     "@types/chai": ^4.3.4
     "@types/chai-as-promised": ^7.1.5
@@ -899,47 +863,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tensor-oss/tensorswap-sdk@npm:^2.0.4":
-  version: 2.0.7
-  resolution: "@tensor-oss/tensorswap-sdk@npm:2.0.7"
+"@tensor-oss/tensorswap-sdk@npm:^4.2.0, @tensor-oss/tensorswap-sdk@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "@tensor-oss/tensorswap-sdk@npm:4.3.0"
   dependencies:
     "@coral-xyz/anchor": ^0.26.0
     "@msgpack/msgpack": ^2.8.0
     "@saberhq/solana-contrib": ^1.14.11
-    "@solana/spl-token": ^0.3.7
+    "@solana/spl-token": ^0.4.0
     "@solana/web3.js": ^1.73.0
-    "@tensor-hq/tensor-common": ^2.3.3
+    "@tensor-hq/tensor-common": ^5.3.0
     "@types/bn.js": ^5.1.0
     big.js: ^6.2.1
     bn.js: ^5.2.0
     js-sha256: ^0.9.0
     keccak256: ^1.0.6
     math-expression-evaluator: ^2.0.4
-    merkletreejs: ^0.2.32
+    merkletreejs: ^0.3.11
     uuid: ^8.3.2
-  checksum: 7ad3cfc2bb8247bd66eb12fa2be106d711b17b10ede6546ceceac7768727f39a84d01303bd974351b320c294d794191005c8c0c8201016f4dc36afdf5e6cb17e
-  languageName: node
-  linkType: hard
-
-"@tensor-oss/tensorswap-sdk@npm:^2.0.6":
-  version: 2.0.6
-  resolution: "@tensor-oss/tensorswap-sdk@npm:2.0.6"
-  dependencies:
-    "@coral-xyz/anchor": ^0.26.0
-    "@msgpack/msgpack": ^2.8.0
-    "@saberhq/solana-contrib": ^1.14.11
-    "@solana/spl-token": ^0.3.7
-    "@solana/web3.js": ^1.73.0
-    "@tensor-hq/tensor-common": ^2.3.2
-    "@types/bn.js": ^5.1.0
-    big.js: ^6.2.1
-    bn.js: ^5.2.0
-    js-sha256: ^0.9.0
-    keccak256: ^1.0.6
-    math-expression-evaluator: ^2.0.4
-    merkletreejs: ^0.2.32
-    uuid: ^8.3.2
-  checksum: c8e028cb2ada335dbc94278a9c8ae368d97bfe4be58cd86a5d58f82be469e3b519b0580eb3c512dfa65ba789fdfc33c9b73f5cd4dd028e880fd258b2780d177d
+  checksum: c382fee8c780d8ed959648cee04c8abefc69fa7b5680c6102a85a0b1392df646f571a04f7d03b06f72acc11b8de716b0cb1b2031d2a112c70f31bada26b89b6c
   languageName: node
   linkType: hard
 
@@ -2646,19 +2588,6 @@ __metadata:
     inherits: ^2.0.1
     safe-buffer: ^5.1.2
   checksum: 098494d885684bcc4f92294b18ba61b7bd353c23147fbc4688c75b45cb8590f5a95fd4584d742415dcc52487f7a1ef6ea611cfa1543b0dc4492fe026357f3f0c
-  languageName: node
-  linkType: hard
-
-"merkletreejs@npm:^0.2.32":
-  version: 0.2.32
-  resolution: "merkletreejs@npm:0.2.32"
-  dependencies:
-    bignumber.js: ^9.0.1
-    buffer-reverse: ^1.0.1
-    crypto-js: ^3.1.9-1
-    treeify: ^1.1.0
-    web3-utils: ^1.3.4
-  checksum: 041b235adde94de584fdf5ef60138baca8d6f16bb48b3b7f714b607eaa76e4207ed5fef501ee5967371c56c5876804c4ff6da4705707f8cc0362d5c1e0358425
   languageName: node
   linkType: hard
 
