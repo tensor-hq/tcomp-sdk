@@ -222,6 +222,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@metaplex-foundation/mpl-core@npm:^0.4.3":
+  version: 0.4.3
+  resolution: "@metaplex-foundation/mpl-core@npm:0.4.3"
+  peerDependencies:
+    "@metaplex-foundation/umi": ">=0.8.2 < 1"
+    "@noble/hashes": ^1.3.1
+  checksum: 8c069ceb1003d99cd723e73651fd900a18fe69b1bcec29612b6d868e56720a67545be789abeb67dff11978fb2632c5f0df62fdf3bcc11a495dcfc4c09f8c8456
+  languageName: node
+  linkType: hard
+
 "@metaplex-foundation/mpl-token-auth-rules@npm:^3.0.1":
   version: 3.0.1
   resolution: "@metaplex-foundation/mpl-token-auth-rules@npm:3.0.1"
@@ -260,6 +270,15 @@ __metadata:
     bn.js: ^5.2.0
     debug: ^4.3.4
   checksum: 70573878ad010b5e0b9dc5c46241ee977e42b140cd279de58d7a4a51c597aa9f8c724dac2f9fb63ed0d3ee563840cad701edbac467358f2c882fa84cbd6f6d62
+  languageName: node
+  linkType: hard
+
+"@metaplex-foundation/mpl-toolbox@npm:^0.9.4":
+  version: 0.9.4
+  resolution: "@metaplex-foundation/mpl-toolbox@npm:0.9.4"
+  peerDependencies:
+    "@metaplex-foundation/umi": ">= 0.8.2 < 1"
+  checksum: 712d1c2e243582cfe5a0589500d861ae65092ea740fa1f392dee88fca41153421a76c73943afa63a45b055d78065db95114c16fcb04668c6ef514f8784d18bb4
   languageName: node
   linkType: hard
 
@@ -361,6 +380,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@metaplex-foundation/umi-rpc-web3js@npm:^0.9.1":
+  version: 0.9.1
+  resolution: "@metaplex-foundation/umi-rpc-web3js@npm:0.9.1"
+  dependencies:
+    "@metaplex-foundation/umi-web3js-adapters": ^0.9.1
+  peerDependencies:
+    "@metaplex-foundation/umi": ^0.9.1
+    "@solana/web3.js": ^1.72.0
+  checksum: 630ce9f43aba0a5bbcf0ef415a7386a11f55bd4de889d055c7c53d7eedcda0f5eea57bebab26f3baf32a21d58d24fa9283bd8d4b2f3785deedbeda0ebe2d5ff5
+  languageName: node
+  linkType: hard
+
 "@metaplex-foundation/umi-serializer-data-view@npm:^0.8.10":
   version: 0.8.10
   resolution: "@metaplex-foundation/umi-serializer-data-view@npm:0.8.10"
@@ -432,6 +463,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@metaplex-foundation/umi-web3js-adapters@npm:^0.9.1":
+  version: 0.9.1
+  resolution: "@metaplex-foundation/umi-web3js-adapters@npm:0.9.1"
+  dependencies:
+    buffer: ^6.0.3
+  peerDependencies:
+    "@metaplex-foundation/umi": ^0.9.1
+    "@solana/web3.js": ^1.72.0
+  checksum: ecfdf27c642e62ddaa880d256c645f45b1ba1d111fe15e8c20df32239d8fdcf7777069cdaeb7e448cc26f26ad70ca3677d8a24ea3342fbca59ee767b8200390e
+  languageName: node
+  linkType: hard
+
 "@metaplex-foundation/umi@npm:^0.8.10":
   version: 0.8.10
   resolution: "@metaplex-foundation/umi@npm:0.8.10"
@@ -473,7 +516,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:1.3.3":
+"@noble/hashes@npm:1.3.3, @noble/hashes@npm:^1.3.1":
   version: 1.3.3
   resolution: "@noble/hashes@npm:1.3.3"
   checksum: 8a6496d1c0c64797339bc694ad06cdfaa0f9e56cd0c3f68ae3666cfb153a791a55deb0af9c653c7ed2db64d537aa3e3054629740d2f2338bb1dcb7ab60cd205b
@@ -484,13 +527,6 @@ __metadata:
   version: 1.3.0
   resolution: "@noble/hashes@npm:1.3.0"
   checksum: d7ddb6d7c60f1ce1f87facbbef5b724cdea536fc9e7f59ae96e0fc9de96c8f1a2ae2bdedbce10f7dcc621338dfef8533daa73c873f2b5c87fa1a4e05a95c2e2e
-  languageName: node
-  linkType: hard
-
-"@noble/hashes@npm:^1.3.1":
-  version: 1.4.0
-  resolution: "@noble/hashes@npm:1.4.0"
-  checksum: 8ba816ae26c90764b8c42493eea383716396096c5f7ba6bea559993194f49d80a73c081f315f4c367e51bd2d5891700bcdfa816b421d24ab45b41cb03e4f3342
   languageName: node
   linkType: hard
 
@@ -827,12 +863,16 @@ __metadata:
   dependencies:
     "@coral-xyz/anchor": 0.26.0
     "@metaplex-foundation/mpl-bubblegum": ~0.8.0
+    "@metaplex-foundation/mpl-core": ^0.4.3
     "@metaplex-foundation/mpl-token-auth-rules": ^3.0.1
     "@metaplex-foundation/mpl-token-metadata": ^2.13.0
+    "@metaplex-foundation/mpl-toolbox": ^0.9.4
     "@metaplex-foundation/umi": ^0.8.10
     "@metaplex-foundation/umi-bundle-defaults": ^0.8.10
+    "@metaplex-foundation/umi-rpc-web3js": ^0.9.1
     "@metaplex-foundation/umi-web3js-adapters": ^0.8.10
     "@msgpack/msgpack": ^3.0.0-beta2
+    "@noble/hashes": ^1.3.1
     "@saberhq/solana-contrib": ^1.14.11
     "@solana/spl-account-compression": ^0.1.7
     "@solana/spl-token": ^0.4.0
