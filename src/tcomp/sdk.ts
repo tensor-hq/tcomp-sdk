@@ -98,6 +98,9 @@ import {
   findTCompPda,
   findTreeAuthorityPda,
 } from "./pda";
+import { MPL_CORE_PROGRAM_ID } from "@metaplex-foundation/mpl-core";
+import { getCreators } from "../metaplexCore";
+import { toWeb3JsPublicKey } from "@metaplex-foundation/umi-web3js-adapters";
 
 // --------------------------------------- idl
 
@@ -1678,6 +1681,322 @@ export class TCompSDK {
       bidState,
       tcomp,
       ownerAtaAcc,
+    };
+  }
+
+  // ----------------------------------- Metaplex Core
+
+  async takeBidCore({
+    bidId,
+    asset,
+    owner,
+    rentDest,
+    seller,
+    minAmount,
+    collection = null,
+    currency = null,
+    makerBroker,
+    takerBroker = null,
+    margin = null,
+    whitelist = null,
+    compute = 800_000, // pnfts are expensive
+    priorityMicroLamports = DEFAULT_MICRO_LAMPORTS,
+    cosigner = null,
+  }: {
+    bidId: PublicKey;
+    asset: PublicKey;
+    owner: PublicKey;
+    rentDest: PublicKey;
+    seller: PublicKey;
+    minAmount: BN;
+    collection?: PublicKey | null;
+    currency?: PublicKey | null;
+    makerBroker: PublicKey | null;
+    takerBroker?: PublicKey | null;
+    margin?: PublicKey | null;
+    whitelist?: PublicKey | null;
+    compute?: number | null | undefined;
+    priorityMicroLamports?: number | null | undefined;
+    cosigner?: PublicKey | null;
+  }) {
+    const [tcomp] = findTCompPda({});
+    const [bidState] = findBidStatePda({ bidId, owner });
+    const mintProofPda = whitelist
+      ? findMintProofPDA({ mint: asset, whitelist })[0]
+      : SystemProgram.programId;
+    const creators = await getCreators(
+      this.program.provider.connection,
+      asset,
+      collection
+    );
+
+    const builder = this.program.methods
+      .takeBidCore(minAmount)
+      .accounts({
+        tcomp,
+        seller,
+        bidState,
+        owner,
+        rentDest: getTcompRentPayer({ rentPayer: rentDest, owner }),
+        takerBroker,
+        makerBroker,
+        marginAccount: margin ?? seller,
+        whitelist: whitelist ?? TSWAP_PROGRAM_ID,
+        asset,
+        collection,
+        mplCoreProgram: MPL_CORE_PROGRAM_ID,
+        systemProgram: SystemProgram.programId,
+        tcompProgram: TCOMP_ADDR,
+        tensorswapProgram: TSWAP_PROGRAM_ID,
+        cosigner: cosigner ?? seller,
+        mintProof: mintProofPda,
+      })
+      .remainingAccounts(
+        creators.map((c) => {
+          return {
+            pubkey: toWeb3JsPublicKey(c.address),
+            isWritable: c.percentage > 0, // reduces congestion + program creators
+            isSigner: false,
+          };
+        })
+      );
+    const ix = await builder.instruction();
+
+    const ixs = prependComputeIxs(
+      [ix],
+      isNullLike(compute) ? null : compute ?? 0,
+      priorityMicroLamports
+    );
+
+    return {
+      builder,
+      tx: {
+        ixs,
+        extraSigners: [],
+      },
+      bidState,
+      tcomp,
+    };
+  }
+
+  async listCore({
+    asset,
+    collection = null,
+    owner,
+    amount,
+    expireInSec = null,
+    currency = null,
+    makerBroker = null,
+    privateTaker = null,
+    payer = null,
+    compute = DEFAULT_XFER_COMPUTE_UNITS,
+    priorityMicroLamports = DEFAULT_MICRO_LAMPORTS,
+  }: {
+    asset: PublicKey;
+    collection?: PublicKey | null;
+    owner: PublicKey;
+    amount: BN;
+    expireInSec?: BN | null;
+    currency?: PublicKey | null;
+    makerBroker?: PublicKey | null;
+    privateTaker?: PublicKey | null;
+    payer?: PublicKey | null;
+    compute?: number | null;
+    priorityMicroLamports?: number | null;
+  }) {
+    const [listState] = findListStatePda({ assetId: asset });
+
+    const builder = this.program.methods
+      .listCore(amount, expireInSec, currency, privateTaker, makerBroker)
+      .accounts({
+        asset,
+        collection,
+        mplCoreProgram: MPL_CORE_PROGRAM_ID,
+        systemProgram: SystemProgram.programId,
+        tcompProgram: TCOMP_ADDR,
+        owner,
+        listState,
+        payer: payer ?? owner,
+      });
+
+    //because EITHER of the two has to sign, mark one of them as signer
+    const ix = await builder.instruction();
+    const ixs = prependComputeIxs([ix], compute, priorityMicroLamports);
+
+    return {
+      builder,
+      tx: {
+        ixs,
+        extraSigners: [],
+      },
+      listState,
+    };
+  }
+
+  async delistCore({
+    asset,
+    collection = null,
+    owner,
+    rentDest,
+    compute = DEFAULT_XFER_COMPUTE_UNITS,
+    priorityMicroLamports = DEFAULT_MICRO_LAMPORTS,
+  }: {
+    asset: PublicKey;
+    collection?: PublicKey | null;
+    owner: PublicKey;
+    rentDest: PublicKey;
+    compute?: number | null;
+    priorityMicroLamports?: number | null;
+  }) {
+    const [listState] = findListStatePda({ assetId: asset });
+
+    const builder = this.program.methods.delistCore().accounts({
+      asset,
+      collection,
+      mplCoreProgram: MPL_CORE_PROGRAM_ID,
+      tcompProgram: TCOMP_ADDR,
+      systemProgram: SystemProgram.programId,
+      owner,
+      rentDest: getTcompRentPayer({ rentPayer: rentDest, owner }),
+      listState,
+    });
+
+    const ixs = prependComputeIxs(
+      [await builder.instruction()],
+      compute,
+      priorityMicroLamports
+    );
+
+    return {
+      builder,
+      tx: {
+        ixs,
+        extraSigners: [],
+      },
+      listState,
+    };
+  }
+
+  async buyCore({
+    asset,
+    collection = null,
+    maxAmount,
+    makerBroker,
+    takerBroker = null,
+    owner,
+    buyer,
+    payer = null,
+    rentDest,
+    compute = DEFAULT_XFER_COMPUTE_UNITS,
+    priorityMicroLamports = DEFAULT_MICRO_LAMPORTS,
+  }: {
+    asset: PublicKey;
+    collection?: PublicKey | null;
+    maxAmount: BN;
+    makerBroker: PublicKey | null;
+    takerBroker?: PublicKey | null;
+    owner: PublicKey;
+    buyer: PublicKey;
+    payer?: PublicKey | null;
+    rentDest: PublicKey;
+    compute?: number | null;
+    priorityMicroLamports?: number | null;
+  }) {
+    const [tcomp] = findTCompPda({});
+    const [listState] = findListStatePda({ assetId: asset });
+
+    const creators = await getCreators(
+      this.program.provider.connection,
+      asset,
+      collection
+    );
+
+    const builder = this.program.methods
+      .buyCore(maxAmount)
+      .accounts({
+        asset,
+        collection,
+        mplCoreProgram: MPL_CORE_PROGRAM_ID,
+        systemProgram: SystemProgram.programId,
+        tcompProgram: TCOMP_ADDR,
+        buyer,
+        payer: payer ?? buyer,
+        owner,
+        rentDest: getTcompRentPayer({ rentPayer: rentDest, owner }),
+        listState,
+        tcomp,
+        takerBroker,
+        makerBroker,
+      })
+      .remainingAccounts(
+        creators.map((c) => {
+          return {
+            pubkey: toWeb3JsPublicKey(c.address),
+            isWritable: c.percentage > 0, // reduces congestion + program creators
+            isSigner: false,
+          };
+        })
+      );
+
+    const ixs = prependComputeIxs(
+      [await builder.instruction()],
+      compute,
+      priorityMicroLamports
+    );
+
+    return {
+      builder,
+      tx: {
+        ixs,
+        extraSigners: [],
+      },
+      listState,
+      tcomp,
+      creators,
+    };
+  }
+
+  async closeExpiredListingCore({
+    asset,
+    collection = null,
+    owner,
+    rentDest,
+    compute = DEFAULT_XFER_COMPUTE_UNITS,
+    priorityMicroLamports = DEFAULT_MICRO_LAMPORTS,
+  }: {
+    asset: PublicKey;
+    collection?: PublicKey | null;
+    owner: PublicKey;
+    rentDest: PublicKey;
+    compute?: number | null;
+    priorityMicroLamports?: number | null;
+  }) {
+    const [listState] = findListStatePda({ assetId: asset });
+
+    const builder = this.program.methods.closeExpiredListingCore().accounts({
+      asset,
+      collection,
+      mplCoreProgram: MPL_CORE_PROGRAM_ID,
+      tcompProgram: TCOMP_ADDR,
+      systemProgram: SystemProgram.programId,
+      owner,
+      listState,
+      rentDest: getTcompRentPayer({ rentPayer: rentDest, owner }),
+    });
+
+    const ixs = prependComputeIxs(
+      [await builder.instruction()],
+      compute,
+      priorityMicroLamports
+    );
+
+    return {
+      builder,
+      tx: {
+        ixs,
+        extraSigners: [],
+      },
+      listState,
     };
   }
 
