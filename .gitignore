@@ -2,7 +2,7 @@
 target
 **/*.rs.bk
 node_modules
-.yarn/
+.yarn/install-state.gz
 
 # Private keys/secrets
 *.jks
