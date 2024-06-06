@@ -26,6 +26,7 @@ import {
 } from "@solana/spl-token";
 import {
   AccountInfo,
+  AccountMeta,
   Commitment,
   PublicKey,
   SystemProgram,
@@ -64,6 +65,7 @@ import bs58 from "bs58";
 import {
   getApprovalAccount,
   getDistributionAccount,
+  getTransferHookExtraAccounts,
   WNS_DISTRIBUTION_PROGRAM_ID,
   WNS_PROGRAM_ID,
 } from "../token2022";
@@ -1519,6 +1521,7 @@ export class TCompSDK {
     compute = 800_000, // pnfts are expensive
     priorityMicroLamports = DEFAULT_MICRO_LAMPORTS,
     cosigner = null,
+    transferHook = null,
   }: {
     bidId: PublicKey;
     nftMint: PublicKey;
@@ -1535,6 +1538,10 @@ export class TCompSDK {
     compute?: number | null | undefined;
     priorityMicroLamports?: number | null | undefined;
     cosigner?: PublicKey | null;
+    transferHook?: {
+      program: PublicKey;
+      remainingAccounts?: AccountMeta[] | null;
+    } | null;
   }) {
     const [tcomp] = findTCompPda({});
     const ownerAtaAcc = findAtaWithProgramId(
@@ -1568,10 +1575,23 @@ export class TCompSDK {
       cosigner: cosigner ?? seller,
       mintProof: mintProofPda,
     });
-    const ix = await builder.instruction();
+
+    if (transferHook) {
+      const hookAccounts = await getTransferHookExtraAccounts(
+        this.program.provider.connection,
+        nftMint,
+        await builder.instruction(),
+        transferHook.program
+      );
+
+      builder.remainingAccounts([
+        ...hookAccounts,
+        ...(transferHook.remainingAccounts ?? []),
+      ]);
+    }
 
     const ixs = prependComputeIxs(
-      [ix],
+      [await builder.instruction()],
       isNullLike(compute) ? null : compute ?? 0,
       priorityMicroLamports
     );
